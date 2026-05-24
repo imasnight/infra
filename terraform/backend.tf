@@ -1,5 +1,8 @@
 terraform {
-  backend "local" {
-    path = "terraform.tfstate"
+  cloud {
+    organization = "imasnight"
+    workspaces {
+      name = "infra"
+    }
   }
 }
