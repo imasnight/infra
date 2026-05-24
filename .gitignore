@@ -1,0 +1,6 @@
+/.agent-shell/
+/.claude/skills/
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/*.tfstate
+terraform/*.tfstate.backup
