@@ -1,0 +1,31 @@
+name: Update skills docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - skills.nix
+      - scripts/gen-skills-doc.sh
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@v16
+
+      - name: Generate docs/skills.md
+        run: bash scripts/gen-skills-doc.sh
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/skills.md
+          git diff --staged --quiet || git commit -m "docs: update skills list"
+          git push

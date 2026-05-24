@@ -6,26 +6,36 @@ let
       subdir = "cli-tool/components";
     };
   };
-  selection = agentLib.selectSkills {
-    catalog = { };
-    allowlist = [ ];
-    inherit sources;
-    skills = {
-      git-commit-helper = {
-        from = "claude-code-templates";
-        path = "skills/development/git-commit-helper";
-      };
-      commit-smart = {
-        from = "claude-code-templates";
-        path = "skills/git/commit-smart";
-      };
+
+  skillDefs = {
+    git-commit-helper = {
+      from = "claude-code-templates";
+      path = "skills/development/git-commit-helper";
+    };
+    commit-smart = {
+      from = "claude-code-templates";
+      path = "skills/git/commit-smart";
     };
   };
+
+  mkSelection =
+    skillAttrs:
+    agentLib.selectSkills {
+      catalog = { };
+      allowlist = [ ];
+      inherit sources;
+      skills = skillAttrs;
+    };
+
+  selection = mkSelection skillDefs;
+
+  selections = builtins.mapAttrs (name: def: mkSelection { ${name} = def; }) skillDefs;
+
   localTarget = {
     claude = agentLib.defaultLocalTargets.claude // { enable = true; };
     opencode = agentLib.defaultLocalTargets.opencode // { enable = true; };
   };
 in
 {
-  inherit selection localTarget;
+  inherit selection selections localTarget skillDefs;
 }

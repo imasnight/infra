@@ -22,16 +22,11 @@
       systems,
       nixpkgs,
       flake-parts,
-      agent-skills-nix,
-      claude-code-templates,
       ...
     }:
-    let
-      agentLib = agent-skills-nix.lib.agent-skills;
-      skills = import ./skills.nix { inherit agentLib claude-code-templates; };
-    in
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
+        ./skills-module.nix
         inputs.treefmt-nix.flakeModule
         inputs.git-hooks-nix.flakeModule
         inputs.process-compose-flake.flakeModule
@@ -42,6 +37,7 @@
         {
           config,
           system,
+          skillBundles,
           ...
         }:
         let
@@ -49,33 +45,16 @@
             inherit system;
             config.allowUnfree = true;
           };
-          stdenv = pkgs.stdenv;
-
-          gitCommitHelperBundle = agentLib.mkBundle {
-            inherit pkgs;
-            selection = skills.selection;
-            name = "git-commit-helper-bundle";
-          };
-
-          app = stdenv.mkDerivation {
-            pname = "hello";
-            version = "0.1.0";
-            src = pkgs.writeShellScriptBin "hello" ''
-              echo Hello World!
-            '';
-
-            buildCommand = ''
-              install -D $src/bin/hello $out/bin/hello
-            '';
-          };
         in
         {
+          _module.args.pkgs = pkgs;
           # When execute `nix fmt`, formatting your code.
 
           treefmt = {
             projectRootFile = "flake.nix";
             programs = {
               nixfmt.enable = true;
+              terraform.enable = true;
             };
 
             settings.formatter = { };
@@ -109,8 +88,7 @@
             ];
           };
 
-          packages.default = app;
-          packages.git-commit-helper = gitCommitHelperBundle;
+          packages = skillBundles;
 
           devShells.default = pkgs.mkShell {
             inputsFrom = [
@@ -128,11 +106,8 @@
               ''
                 export GITHUB_TOKEN=$(gh auth token 2>/dev/null || echo "")
               ''
-              + agentLib.mkShellHook {
-                inherit pkgs;
-                bundle = gitCommitHelperBundle;
-                targets = skills.localTarget;
-              };
+              + self.lib.mkShellHook pkgs skillBundles.git-commit-helper
+              + self.lib.mkShellHook pkgs skillBundles.commit-smart;
           };
         };
     };
