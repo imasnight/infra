@@ -31,6 +31,19 @@ in
         name = skillName;
       };
 
+    mkBundleFromNames =
+      pkgs: names:
+      let
+        filteredDefs = builtins.intersectAttrs
+          (builtins.listToAttrs (map (n: { name = n; value = null; }) names))
+          skills.skillDefs;
+      in
+      agentLib.mkBundle {
+        inherit pkgs;
+        selection = skills.mkSelection filteredDefs;
+        name = builtins.concatStringsSep "-" (builtins.sort builtins.lessThan names);
+      };
+
     mkShellHook =
       pkgs: bundle:
       agentLib.mkShellHook {

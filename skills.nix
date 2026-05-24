@@ -37,5 +37,5 @@ let
   };
 in
 {
-  inherit selection selections localTarget skillDefs;
+  inherit selection selections localTarget skillDefs mkSelection;
 }

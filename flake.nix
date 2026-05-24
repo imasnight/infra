@@ -71,12 +71,6 @@
                   entry = "${pkgs.gitleaks}/bin/gitleaks protect --staged";
                   language = "system";
                 };
-                terraform-format = {
-                  enable = true;
-                  entry = "${pkgs.terraform}/bin/terraform fmt -check -recursive";
-                  language = "system";
-                  files = "\\.tf$";
-                };
               };
             };
           };
@@ -106,8 +100,10 @@
               ''
                 export GITHUB_TOKEN=$(gh auth token 2>/dev/null || echo "")
               ''
-              + self.lib.mkShellHook pkgs skillBundles.git-commit-helper
-              + self.lib.mkShellHook pkgs skillBundles.commit-smart;
+              + self.lib.mkShellHook pkgs (self.lib.mkBundleFromNames pkgs [
+                "commit-smart"
+                "git-commit-helper"
+              ]);
           };
         };
     };
