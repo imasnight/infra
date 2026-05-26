@@ -2,3 +2,5 @@
 /.claude/skills/
 terraform/.terraform/
 terraform/.terraform.lock.hcl
+.direnv/
+.opencode/
