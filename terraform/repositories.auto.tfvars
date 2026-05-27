@@ -13,6 +13,12 @@ repositories = [
     has_wiki   = true
   },
   {
+    name       = "event"
+    visibility = "public"
+    has_issues = true
+    has_wiki   = true
+  },
+  {
     name        = "imasnight"
     description = "テックイベント「アイマスNight」のGitHubリポジトリです。"
     visibility  = "public"
