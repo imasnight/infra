@@ -1,0 +1,84 @@
+{
+  "nodes": {
+    "agent-skills-nix": {
+      "inputs": {
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1779957311,
+        "narHash": "sha256-ay1wGiKQIGIcFpSxlutpoAlsPVerbVhDUXtmaDVLz+o=",
+        "owner": "Kyure-A",
+        "repo": "agent-skills-nix",
+        "rev": "df7a6e0fa87655cf28369781232d153c1c7b55ca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Kyure-A",
+        "repo": "agent-skills-nix",
+        "type": "github"
+      }
+    },
+    "claude-code-templates": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780115176,
+        "narHash": "sha256-SOXnbytjReZZ9dXYicemR9s/dW+OVlYjPlgiNC1v5Os=",
+        "owner": "davila7",
+        "repo": "claude-code-templates",
+        "rev": "bd566db3081846ac61f7d8bc1e417d265b01b8ab",
+        "type": "github"
+      },
+      "original": {
+        "owner": "davila7",
+        "repo": "claude-code-templates",
+        "type": "github"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "agent-skills-nix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1779678629,
+        "narHash": "sha256-gHcIFg0mm+KFsg7iZQt67kni3+qR5U3PhEC9P7vKlZ4=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "612bbe3b405ad5f71d7bf9edecc04b678a061652",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1779508470,
+        "narHash": "sha256-Ap9KJX+5xHIn3bPIpfNgT6MEXdAECECwo4/rmlQD74M=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "29916453413845e54a65b8a1cf996842300cd299",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "agent-skills-nix": "agent-skills-nix",
+        "claude-code-templates": "claude-code-templates"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
